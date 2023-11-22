@@ -39,6 +39,8 @@ class Place(*(BaseModel, Base) if is_db else (BaseModel,)):
         amenities = relationship("Amenity", secondary="place_amenity",
                                  back_populates="place_amenities",
                                  viewonly=False)
+        reviews = relationship("Review", back_populates="place",
+                               cascade="all, delete")
     else:
         city_id = ""
         user_id = ""
@@ -51,3 +53,17 @@ class Place(*(BaseModel, Base) if is_db else (BaseModel,)):
         latitude = 0.0
         longitude = 0.0
         amenity_ids = []
+
+        @property
+        def cities(self):
+            cities = models.storage.all(City)
+            my_cities = list(filter(lambda review: review.place_id ==
+                                    self.id, cities))
+            return my_cities
+
+        @property
+        def reviews(self):
+            reviews = models.storage.all(Review)
+            my_reviews = list(filter(lambda review:
+                                     review.place_id == self.id, reviews))
+            return my_reviews
