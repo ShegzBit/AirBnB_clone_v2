@@ -27,13 +27,13 @@ city = City(state_id=state.id, name="San Francisco")
 city.save()
 
 # creation of a User
-# user = User(email="john@snow.com", password="johnpwd")
-# user.save()
+user = User(email="john@snow.com", password="johnpwd")
+user.save()
 
 # creation of 2 Places
-place_1 = Place(city_id=city.id, name="House 1")#,user_id=user.id)
+place_1 = Place(city_id=city.id, name="House 1", user_id=user.id)
 place_1.save()
-place_2 = Place(city_id=city.id, name="House 2")#, user_id=user.id)
+place_2 = Place(city_id=city.id, name="House 2", user_id=user.id)
 place_2.save()
 
 # creation of 3 various Amenity

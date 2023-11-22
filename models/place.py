@@ -25,7 +25,7 @@ class Place(*(BaseModel, Base) if is_db else (BaseModel,)):
     if is_db:
         __tablename__ = "places"
         city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
-        # user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
+        user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
         name = Column(String(128), nullable=False)
         description = Column(String(1024))
         number_rooms = Column(Integer, default=0, nullable=False)

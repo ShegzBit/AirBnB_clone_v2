@@ -27,5 +27,31 @@
     "latitude": 37.773972,
     "longitude": -122.431297,
     "__class__": "Place"
+  },
+  "State.": {
+    "name": "California",
+    "updated_at": "2023-11-22T19:54:52.815789",
+    "__class__": "State",
+    "created_at": "2023-11-22T19:54:52.812097"
+  },
+  "City.": {
+    "state_id": "",
+    "name": "San Francisco",
+    "updated_at": "2023-11-22T19:54:52.816227",
+    "__class__": "City",
+    "created_at": "2023-11-22T19:54:52.812097"
+  },
+  "Place.": {
+    "city_id": "",
+    "name": "House 2",
+    "updated_at": "2023-11-22T19:54:52.818411",
+    "__class__": "Place",
+    "created_at": "2023-11-22T19:54:52.812097"
+  },
+  "Amenity.": {
+    "name": "Oven",
+    "updated_at": "2023-11-22T19:54:52.821712",
+    "__class__": "Amenity",
+    "created_at": "2023-11-22T19:54:52.812097"
   }
 }
