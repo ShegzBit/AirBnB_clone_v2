@@ -13,15 +13,10 @@ from models.review import Review
 import shlex
 from ast import literal_eval as l_eval
 from models import storage
+import os
 
-# BaseModel = models.user.BaseModel
-# storage = models.storage
-# User = models.user.User
-# State = models.state.State
-# City = models.city.City
-# Place = models.place.Place
-# Amenity = models.amenity.Amenity
-# Review = models.review.Review
+db = os.getenv("HBNB_TYPE_STORAGE")
+is_db = db == "db"
 
 
 class HBNBCommand(cmd.Cmd):
@@ -31,23 +26,18 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) " if sys.__stdin__.isatty() else ''
 
-    ({"Amenity": Amenity, "BaseModel": BaseModel, "User": User,
-      "City": City, "Place": Place,
-      "Review": Review, "State": State})
-    classes = {"City": City, "State": State}
+    classes = (({"City": City, "State": State,  "Place": Place})
+               if is_db else ({"Amenity": Amenity, "BaseModel": BaseModel,
+                              "User": User, "City": City, "Place": Place,
+                               "Review": Review, "State": State}))
 
     @staticmethod
     def to_numeral(obj):
         """checks if a string is convertible to a float"""
         try:
-            int(obj)
-            return int(obj)
-        except ValueError:
-            try:
-                float(obj)
-                return float(obj)
-            except ValueError:
-                return obj
+            return l_eval(obj)
+        except (ValueError, SyntaxError):
+            return obj
 
     @staticmethod
     def to_dict(strn):
@@ -284,6 +274,7 @@ class HBNBCommand(cmd.Cmd):
 
     def handler_update(self, class_name, sub_args):
         """Handles Updare called by <class_name>.update"""
+
         def dict_update(self, attr_dict):
             """Updates an object using a dictionary of attributes"""
             to_num = HBNBCommand.to_numeral
@@ -323,7 +314,7 @@ class HBNBCommand(cmd.Cmd):
             is_dict = False
         if is_dict is True:
             attr_dict = to_dict(sub_args[1])
-        dict_update(main_obj, attr_dict)
+            dict_update(main_obj, attr_dict)
 
     # ------------<class_name> handler-------------------------------
 
@@ -333,7 +324,7 @@ class HBNBCommand(cmd.Cmd):
         # line = User.show(<id>)
         if line == "":
             return
-        args = line.split('.')
+        args = line.split('.', 1)
 
         if args[0] not in (["User", "BaseModel", "Amenity", "City",
                             "Place", "Review", "State"]):

@@ -24,7 +24,6 @@ class State(*(BaseModel, Base) if is_db else (BaseModel,)):
                               cascade="all, delete")
     else:
         name = ""
-        # @cities.getter
 
         def cities(self):
             """

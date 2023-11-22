@@ -23,6 +23,8 @@ class City(*(BaseModel, Base) if is_db else (BaseModel,)):
                           ForeignKey('states.id'), nullable=False)
         state = relationship('State', back_populates="cities",
                              cascade="all, delete")
+        places = relationship("Place", back_populates="cities",
+                              cascade="all, delete")
     else:
         name = ""
         state_id = ""
