@@ -4,7 +4,7 @@ from uuid import uuid4
 from datetime import datetime
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy import (Column, String, Integer, Date,
-                        ForeignKey, Float)
+                        ForeignKey, Float, Table)
 from datetime import datetime
 import os
 import models

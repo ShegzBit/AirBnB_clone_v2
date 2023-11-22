@@ -2,15 +2,21 @@
 """ Place Module for HBNB project """
 from models.base_model import BaseModel
 
-from models.base_model import (Base,
+from models.base_model import (Base, Table,
                                Column, String, Integer, Float,
                                relationship, ForeignKey)
 
-from models.state import BaseModel
 import os
 
 db = os.getenv("HBNB_TYPE_STORAGE")
 is_db = db == "db"
+
+place_table = Table("place_amenity", Base.metadata,
+                    Column("place_id", String(60),
+                           ForeignKey("places.id"), primary_key=True),
+                    Column("amenity_id", String(60),
+                           ForeignKey("amenities.id"), primary_key=True)
+                    )
 
 
 class Place(*(BaseModel, Base) if is_db else (BaseModel,)):
@@ -30,6 +36,9 @@ class Place(*(BaseModel, Base) if is_db else (BaseModel,)):
         longitude = Column(Float)
         cities = relationship("City", back_populates="places",
                               cascade="all, delete")
+        amenities = relationship("Amenity", secondary="place_amenity",
+                                 back_populates="place_amenities",
+                                 viewonly=False)
     else:
         city_id = ""
         user_id = ""
