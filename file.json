@@ -1,15 +1,9 @@
 {
-  "State.9ebf6693-9879-40d0-beb7-84dcc3e0ba0e": {
-    "name": "Wow",
-    "created_at": "2023-11-22T01:26:55.581707",
-    "updated_at": "2023-11-22T01:26:55.581707",
-    "id": "9ebf6693-9879-40d0-beb7-84dcc3e0ba0e",
+  "State.11786613-3252-417a-b61c-238efb474fa5": {
+    "created_at": "2023-11-22T02:44:58.986795",
+    "updated_at": "2023-11-22T02:44:58.986795",
+    "id": "11786613-3252-417a-b61c-238efb474fa5",
+    "name": "California",
     "__class__": "State"
-  },
-  "State.": {
-    "name": "Wow",
-    "__class__": "State",
-    "created_at": "2023-11-22T01:28:38.698448",
-    "updated_at": "2023-11-22T01:28:38.698448"
   }
 }
