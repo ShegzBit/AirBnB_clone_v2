@@ -13,7 +13,7 @@ from models.state import State
 from models.review import Review
 from models.amenity import Amenity
 from models.base_model import Base
-from  sqlalchemy.orm.scoping import scoped_session
+from sqlalchemy.orm.scoping import scoped_session
 
 USER = os.getenv("HBNB_MYSQL_USER")
 PASS = os.getenv("HBNB_MYSQL_PWD")
@@ -21,13 +21,14 @@ HOST = os.getenv("HBNB_MYSQL_HOST")
 DBNAME = os.getenv("HBNB_MYSQL_DB")
 current_process = os.getenv("HBNB_ENV")
 
+
 class DBStorage:
     """
     Database storage class for AirBnB console
     """
     __engine = None
     __session = None
-    classes = [State, City]#, User, Amenity, Place, Review]
+    classes = [State, City]  # , User, Amenity, Place, Review]
 
     def __init__(self):
         """
@@ -41,7 +42,7 @@ class DBStorage:
             except Exception as e:
                 print("Error dropping tables: ", e)
         self.__Session = sessionmaker(self.__engine, expire_on_commit=False)
-    
+
     def all(self, cls=None):
         """
         Returns all object in the session with type cls
@@ -50,7 +51,7 @@ class DBStorage:
         session = self.__session
         formatted_objects = {}
         objects = []
-        if not cls is None:
+        if cls is not None:
             objects = session.query(cls)
         else:
             for class_name in DBStorage.classes:
@@ -64,14 +65,14 @@ class DBStorage:
         """
         add the object to the current database session (self.__session)
         """
-        if not obj is None:
+        if obj is not None:
             self.__session.add(obj)
 
     def save(self):
         """
         commit all changes of the current database session (self.__session)
         """
-        
+
         self.__session.commit()
 
     def delete(self, obj=None):
@@ -79,7 +80,7 @@ class DBStorage:
         delete from the current database session obj if not None
         """
         self.__session.delete(obj)
-        
+
     def reload(self):
         """
         create all tables in the database (feature of SQLAlchemy)

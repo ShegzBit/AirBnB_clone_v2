@@ -16,15 +16,14 @@ Base = declarative_base()
 class BaseModel:
     """A base class for all hbnb models"""
 
-
     if db_type == "db":
         id = Column(String(60), primary_key=True, default=uuid4)
         created_at = Column(Date, default=datetime.utcnow(), primary_key=True)
         updated_at = Column(Date, default=datetime.utcnow(), nullable=False)
     else:
-        id = uuid4
+        id = ""
         created_at = datetime.now()
-        updated_at = datetime.now()
+        updated_at = created_at
 
     def __init__(self, *args, **kwargs):
         """
@@ -33,7 +32,7 @@ class BaseModel:
         loads an instance from kwargs dictionary
         args is never used
         """
-        
+
         # loop through kwargs and set
         # attribute the attribute is not the id or __class__ or created_at
         for x, y in kwargs.items():
@@ -42,10 +41,10 @@ class BaseModel:
             elif x in ("created_at", "updated_at"):
                 y = datetime.fromisoformat(y)
                 setattr(self, x, y)
-        if len(kwargs) == 0:
-            self.id = str(uuid4())
+        if not kwargs:
             self.created_at = datetime.now()
             self.updated_at = self.created_at
+            self.id = str(uuid4())
         models.storage.new(self)
 
     def __str__(self):

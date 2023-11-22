@@ -24,17 +24,16 @@ from models import storage
 # Review = models.review.Review
 
 
-
 class HBNBCommand(cmd.Cmd):
     """
     Basic HBNB command interpreter
     """
 
     prompt = "(hbnb) " if sys.__stdin__.isatty() else ''
-    
+
     ({"Amenity": Amenity, "BaseModel": BaseModel, "User": User,
-                    "City": City, "Place": Place,
-                    "Review": Review, "State": State})
+      "City": City, "Place": Place,
+      "Review": Review, "State": State})
     classes = {"City": City, "State": State}
 
     @staticmethod
@@ -62,7 +61,7 @@ class HBNBCommand(cmd.Cmd):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
             print('(hbnb)', end=" ")
-    
+
     def postcmd(self, stop, line):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
@@ -109,7 +108,6 @@ class HBNBCommand(cmd.Cmd):
         storage.new(new_instance)
         storage.save()
         print(new_instance.id)
-
 
     def do_show(self, line=""):
         """Print the object of the class and id passed"""
