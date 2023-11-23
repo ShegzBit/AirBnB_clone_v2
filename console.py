@@ -26,8 +26,9 @@ class HBNBCommand(cmd.Cmd):
 
     prompt = "(hbnb) " if sys.__stdin__.isatty() else ''
 
-    classes = (({"City": City, "State": State,  "Place": Place,
-               "Amenity": Amenity, "User": User})
+    classes = (({"City": City, "Place": Place,
+                "Review": Review, "State": State,
+                 "Amenity": Amenity, "User": User})
                if is_db else ({"BaseModel": BaseModel,
                                "City": City, "Place": Place,
                                "Review": Review, "State": State,
