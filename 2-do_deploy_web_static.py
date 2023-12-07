@@ -40,6 +40,7 @@ def do_deploy(archive_path):
                 /data/web_static/releases/{new_dir}')
             run(f'rm {archive_name}')
             run(f'rm -r /data/web_static/releases/{new_dir}/web_static/')
+            run('rm /data/web_static/current')
             run(f'ln -sf /data/web_static/releases/{unpacked} \
                 /data/web_static/current')
         return True
