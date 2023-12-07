@@ -18,8 +18,6 @@ webpage='<html>
 </html>'
 echo "$webpage" > /data/web_static/releases/test/index.html
 
-symlink="/data/web_static/current"
-
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 sudo chown -hR "ubuntu":"ubuntu" /data
