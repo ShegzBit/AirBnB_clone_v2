@@ -36,7 +36,7 @@ def do_deploy(archive_path):
             run(f'mkdir -p /data/web_static/releases/{new_dir}')
             run(f'tar -xvzf {archive_name} -C\
                 /data/web_static/releases/{new_dir}')
-            sudo(f'rsyinc -a /data/web_static/releases/{new_dir}/web_static/* \
+            sudo(f'rsync -a /data/web_static/releases/{new_dir}/web_static/* \
                 /data/web_static/releases/{new_dir}')
             run(f'rm {archive_name}')
             run(f'rm -r /data/web_static/releases/{new_dir}/web_static/')
