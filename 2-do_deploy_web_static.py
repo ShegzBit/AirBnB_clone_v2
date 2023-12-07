@@ -27,16 +27,20 @@ def do_deploy(archive_path):
     # versions/
     # archive name = web_static_20170315003959
     # .tgz
-    put(archive_path, '/tmp')
-    archive_name = archive_path.split('/')[-1]
-    unpacked = archive_name.split('.')[0]
-    new_dir = unpacked
-    with cd('/tmp'):
-        run(f'mkdir -p /data/web_static/releases/{new_dir}')
-        run(f'tar -xvzf {archive_name} -C /data/web_static/releases/{new_dir}')
-        sudo(f'mv /data/web_static/releases/{new_dir}/web_static/* \
-             /data/web_static/releases/{new_dir}')
-        run(f'rm {archive_name}')
-        run(f'rm -r /data/web_static/releases/{new_dir}/web_static/')
-        run(f'ln -sf /data/web_static/releases/{unpacked} \
-            /data/web_static/current')
+    try:
+        put(archive_path, '/tmp')
+        archive_name = archive_path.split('/')[-1]
+        unpacked = archive_name.split('.')[0]
+        new_dir = unpacked
+        with cd('/tmp'):
+            run(f'mkdir -p /data/web_static/releases/{new_dir}')
+            run(f'tar -xvzf {archive_name} -C /data/web_static/releases/{new_dir}')
+            sudo(f'rsyinc -a /data/web_static/releases/{new_dir}/web_static/* \
+                /data/web_static/releases/{new_dir}')
+            run(f'rm {archive_name}')
+            run(f'rm -r /data/web_static/releases/{new_dir}/web_static/')
+            run(f'ln -sf /data/web_static/releases/{unpacked} \
+                /data/web_static/current')
+        return True
+    except Exception:
+        return False
