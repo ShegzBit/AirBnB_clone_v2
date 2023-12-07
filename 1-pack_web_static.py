@@ -28,4 +28,4 @@ def do_pack():
 
     local("mkdir -p versions")
     local(f"tar -czvf versions/{tar_name} ./web_static")
-    return tar_name
+    return f"versions/{tar_name}"
