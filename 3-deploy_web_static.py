@@ -86,3 +86,4 @@ def deploy():
     if not packed:
         return False
     do_deploy(packed)
+    print("New version deployed!")
