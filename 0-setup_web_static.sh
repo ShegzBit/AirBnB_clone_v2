@@ -20,10 +20,6 @@ echo "$webpage" > /data/web_static/releases/test/index.html
 
 symlink="/data/web_static/current"
 
-if [  -L "$symlink" ]
-then
-	sudo rm "$symlink"
-fi
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 sudo chown -hR "ubuntu":"ubuntu" /data
