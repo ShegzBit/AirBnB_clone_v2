@@ -25,7 +25,7 @@ if [ -L "$symlink" ]; then
 fi
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-sudo chown -hR "ubuntu":"ubuntu" /data
+sudo chown -hR "ubuntu:ubuntu" /data
 
 # handle hbnb_static
 hbnb_static='\
