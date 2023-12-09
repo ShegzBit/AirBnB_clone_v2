@@ -31,18 +31,16 @@ def do_deploy(archive_path):
         put(archive_path, '/tmp')
         archive_name = archive_path.split('/')[-1]
         unpacked = archive_name.split('.')[0]
-        new_dir = unpacked
+        new_dir = f'/data/web_static/releases/{unpacked}'
         with cd('/tmp'):
-            run(f'mkdir -p /data/web_static/releases/{new_dir}')
-            run(f'tar -xvzf {archive_name} -C\
-                /data/web_static/releases/{new_dir}')
-            sudo(f'rsync -a /data/web_static/releases/{new_dir}/web_static/* \
-                /data/web_static/releases/{new_dir}')
+            run(f'mkdir -p {new_dir}')
+            run(f'tar -xvzf {archive_name} -C {new_dir}')
+            sudo(f'mv {new_dir}/web_static/* {new_dir}')
             run(f'rm {archive_name}')
-            run(f'rm -r /data/web_static/releases/{new_dir}/web_static/')
-            run('rm /data/web_static/current')
-            run(f'ln -sf /data/web_static/releases/{unpacked} \
-                /data/web_static/current')
+            run(f'rm -rf {new_dir}/web_static/')
+            run('rm -rf /data/web_static/current')
+            run(f'ln -sf {new_dir} /data/web_static/current')
+            print("New version deployed!")
         return True
     except Exception:
         return False
