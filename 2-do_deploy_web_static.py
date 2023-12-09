@@ -16,36 +16,53 @@ env.hosts = ['54.90.34.141', '34.229.49.23']
 @task
 def do_deploy(archive_path):
     """
-    a Fabric task (based on the file 1-pack_web_static.py)
-    that distributes an archive to your web servers,
-    using the function do_deploy:
-    """
+    Deploy the archived directory to the servers
 
+    Args:
+        archive_path (str): The full path of the archived directory
+                            to be deployed
+    Return:
+        True if succeeded, otherwise False
+    """
     if not os.path.exists(archive_path):
         return False
 
-    # versions/
-    # archive name = web_static_20170315003959
-    # .tgz
     try:
-        # upload archive
-        put(archive_path, '/tmp')
-        # get filename and directory path
-        archive_name = archive_path.split('/')[-1]
-        unpacked = archive_name.split('.')[0]
-        new_dir = f'/data/web_static/releases/{unpacked}'
-        # make new dir to store unzipped archive
-        run(f'mkdir -p {new_dir}')
-        # unzip archive to new dir
-        run(f'tar -xvzf /tmp/{archive_name} -C {new_dir}')
-        sudo(f'rsync -la {new_dir}/web_static/* {new_dir}')
-        # remove archive, web_static, previous sym link
-        run(f'rm /tmp/{archive_name}')
-        run(f'rm -rf {new_dir}/web_static/')
-        run('rm -rf /data/web_static/current')
-        # create new symlink
-        run(f'ln -sf {new_dir} /data/web_static/current')
-        print("New version deployed!")
-        return True
+        # Copy the compressed file to the remote server
+        put(archive_path, "/tmp/")
+
+        # Get `archive_path` without the extension
+        compressed_file = os.path.basename(archive_path)
+        archive_name = compressed_file.split(".")[0]
+
+        # Make the destination directory
+        destination_path = '/data/web_static/releases/'
+        run("mkdir -p {}{}/".format(destination_path, archive_name))
+
+        # Uncompress the file on the remote server
+        command = "tar -xzf {} -C {}"
+        compressed_file = "/tmp/{}".format(compressed_file)
+        full_archive_name_dir = "{}{}/".format(destination_path, archive_name)
+        run(command.format(compressed_file, full_archive_name_dir))
+
+        # Remove the compressed file from where it was initially copied to
+        run("rm {}".format(compressed_file))
+
+        # Move the uncompressed files to the appropriate location for serving
+        run("mv {0}web_static/* {0}".format(full_archive_name_dir))
+
+        # Remove `web_static` directory in the `destination_path`
+        run("rm -rf {}web_static".format(full_archive_name_dir))
+
+        # Remove precious created symbolic link for testing
+        run("rm -rf /data/web_static/current")
+
+        # Create a new the symbolic link, linked to the new version of the code
+        target = full_archive_name_dir
+        link = '/data/web_static/current'
+        run("ln -s {} {}".format(target, link))
     except Exception:
         return False
+
+    print("New version deployed!")
+    return True
