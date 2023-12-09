@@ -28,10 +28,10 @@ ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -hR "ubuntu:ubuntu" /data
 
 # handle hbnb_static
-hbnb_static='
-        location /hbnb_static {
-                alias /data/web_static/current/;
-        }'
+hbnb_static="\n\
+        location /hbnb_static {\n\
+                alias /data/web_static/current/;\n\
+        }"
 config="/etc/nginx/sites-available/default"
 sudo sed -i "/server_name _;/a\ $hbnb_static" "$config"
 

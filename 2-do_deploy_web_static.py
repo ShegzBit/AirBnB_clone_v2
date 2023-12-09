@@ -28,19 +28,24 @@ def do_deploy(archive_path):
     # archive name = web_static_20170315003959
     # .tgz
     try:
+        # upload archive
         put(archive_path, '/tmp')
+        # get filename and directory path
         archive_name = archive_path.split('/')[-1]
         unpacked = archive_name.split('.')[0]
         new_dir = f'/data/web_static/releases/{unpacked}'
-        with cd('/tmp'):
-            run(f'mkdir -p {new_dir}')
-            run(f'tar -xvzf {archive_name} -C {new_dir}')
-            sudo(f'mv {new_dir}/web_static/* {new_dir}')
-            run(f'rm {archive_name}')
-            run(f'rm -rf {new_dir}/web_static/')
-            run('rm -rf /data/web_static/current')
-            run(f'ln -sf {new_dir} /data/web_static/current')
-            print("New version deployed!")
+        # make new dir to store unzipped archive
+        run(f'mkdir -p {new_dir}')
+        # unzip archive to new dir
+        run(f'tar -xvzf /tmp/{archive_name} -C {new_dir}')
+        sudo(f'rsync -la {new_dir}/web_static/* {new_dir}')
+        # remove archive, web_static, previous sym link
+        run(f'rm /tmp/{archive_name}')
+        run(f'rm -rf {new_dir}/web_static/')
+        run('rm -rf /data/web_static/current')
+        # create new symlink
+        run(f'ln -sf {new_dir} /data/web_static/current')
+        print("New version deployed!")
         return True
     except Exception:
         return False
