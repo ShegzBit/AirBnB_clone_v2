@@ -10,7 +10,8 @@ from fabric.api import *
 
 
 env.user = "ubuntu"
-env.hosts = ['54.90.34.141', '34.229.49.23']
+env.hosts = ['54.90.34.141', '34.229.49.23', '127.0.0.1']
+
 
 def do_pack():
     """
@@ -38,6 +39,7 @@ def do_pack():
     if archive.succeeded:
         return f"versions/{tar_name}"
     return None
+
 
 def do_deploy(archive_path):
     """
