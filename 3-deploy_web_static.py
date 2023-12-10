@@ -8,7 +8,6 @@ from fabric.api import *
 import os
 from datetime import datetime as dt
 
-
 def do_pack():
     """
     a function that generates a .tgz archive from
@@ -35,7 +34,6 @@ def do_pack():
     if archive.succeeded:
         return f"versions/{tar_name}"
     return None
-
 
 def do_deploy(archive_path):
     """
@@ -83,7 +81,7 @@ def deploy():
     using the function deploy:
     """
     packed = do_pack()
-    if not packed:
+    if not packed or not os.path.exists(packed):
         return False
     do_deploy(packed)
     print("New version deployed!")
