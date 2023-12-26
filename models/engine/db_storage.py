@@ -87,3 +87,10 @@ class DBStorage:
         """
         Base.metadata.create_all(self.__engine)
         self.__session = scoped_session(self.__Session)()
+
+    def close(self):
+        """
+        A method to release all resource and connection of the current
+        Session.
+        """
+        self.__session.close()

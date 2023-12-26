@@ -11,7 +11,7 @@ db = os.getenv("HBNB_TYPE_STORAGE")
 is_db = db == "db"
 
 
-class State(*(BaseModel, Base) if is_db else (BaseModel,)):
+class State(BaseModel, *(Base,) if is_db else ()):
     """ State class """
 
     if db == "db":
@@ -25,14 +25,15 @@ class State(*(BaseModel, Base) if is_db else (BaseModel,)):
     else:
         name = ""
 
+        @property
         def cities(self):
             """
             Implements the correct getting requirement for both
             FIleStorage
             """
             city_list = []
-            objects = storage.all(City).values()
+            objects = models.storage.all(models.city.City).values()
             for obj in objects:
-                if obj.id == self.id:
-                    cities.append(id)
+                if obj.state_id == self.id:
+                    city_list.append(obj)
             return city_list
