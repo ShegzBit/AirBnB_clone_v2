@@ -9,14 +9,14 @@ import models
 app = Flask(__name__)
 
 
-@app.route('/states_list', strict_slashes=False)
-def route_state_list():
+@app.route('/cities_by_states', strict_slashes=False)
+def route_cities_state():
     """
     Handles request for /state_list
     """
     all_states = models.storage.all(models.state.State).values()
     all_states = sorted(all_states, key=lambda state: state.name)
-    return render_template('7-states_list.html', states=all_states)
+    return render_template('8-cities_by_states.html', states=all_states)
 
 
 @app.teardown_appcontext
