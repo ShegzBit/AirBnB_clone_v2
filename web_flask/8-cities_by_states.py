@@ -16,6 +16,9 @@ def route_cities_state():
     """
     all_states = models.storage.all(models.state.State).values()
     all_states = sorted(all_states, key=lambda state: state.name)
+    # cities = []
+    # for state in all_states:
+    #     cities.append(sorted(state.cities, key=lambda city: city.name))
     return render_template('8-cities_by_states.html', states=all_states)
 
 
