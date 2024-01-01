@@ -5,7 +5,6 @@ A python web app that prints all states in DB
 from flask import Flask, render_template
 from markupsafe import escape
 import models
-from models.state import State
 
 app = Flask(__name__)
 
@@ -15,7 +14,7 @@ def route_cities_state():
     """
     Handles request for /state_list
     """
-    all_states = models.storage.all(State).values()
+    all_states = models.storage.all(models.state.State).values()
     return render_template('8-cities_by_states.html', states=all_states)
 
 
